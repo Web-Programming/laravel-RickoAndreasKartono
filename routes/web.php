@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\DosenController;
 use App\Http\Controllers\KurikulumController;
+use App\Http\Controllers\ProdiController;
 use Illuminate\Support\Facades\Route;
+use Mockery\Undefined;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,71 +21,60 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-//Buat route ke halaman profile
-Route::get("/profil", function () {
-    return view("profil");
+Route::get('/profile', function () {
+    return view('profile');
 });
 
-//Route dengan paramater
-Route::get("/mahasiswa/{nama}", function ($nama = "Ricko") {
-    echo "<h1>Halo Nama Saya $nama</h1>";
+//Route dengan Parameter (WAJIB)
+Route::get('/mahasiswa/{nama}', function ($nama = "Nur") {
+    echo "<h1>Halo nama saya $nama</h1";
 });
 
-//Route dengan paramater(tidak wajib)
-Route::get("/mahasiswa2/{nama?}", function ($nama = "Ricko") {
-    echo "<h1>Halo Nama Saya $nama</h1>";
+//Route tidak dengan Parameter (Tidak WAJIB)
+Route::get('/mahasiswa2/{nama?}', function ($nama = "Nur") {
+    echo "<h1>Halo nama saya $nama</h1";
 });
 
-//Route dengan paramater lebih dari 1
-Route::get("/profil/{nama?}/{pekerjaan?}/{umur?}", function ($nama = "Ricko", $pekerjaan = "Mahasiswa", $umur = "18") {
-    echo "<h1>Halo Nama Saya $nama. Saya adalah $pekerjaan. umur saya adalah $umur</h1>";
+//Route dengan Parameter > 1
+Route::get('/profile/{nama?}/{pekerjaan?}', function ($nama = "Nur", $pekerjaan = "Mahasiswa") {
+    echo "<h1>Halo nama saya $nama kerja $pekerjaan</h1";
 });
 
 //Redirect
-Route::get("/hubungi", function () {
-    echo "<h1>Hubungi kami</h1>";
-})->name("call"); //named route
 
-Route::redirect("/contact", "/hubungi");
+Route::get('/hubungi', function () {
+    echo "<h1> Hubungi Kami </h1>";
+})->name("Call");
 
-Route::get("/halo", function () {
-    echo "<a href='" . route('call') . "'>" . route('call') . "</a>";
+Route::get('/Halo', function () {
+    echo "<a href='" . route('Call') . "'>" . route('Call') . "</a>";
 });
 
-Route::prefix("/mahasiswa")->group(function () {
-    Route::get("/jadwal", function () {
-        echo "<h1>Jadwal Mahasiswa<h1>";
+Route::prefix('/dosen')->group(function () {
+    Route::get('/jadwal', function () {
+        echo "<h1>Jadwal dosen</h1>";
     });
-    Route::get("/materi", function () {
-        echo "<h1>Materi Perkuliahan<h1>";
+    Route::get('/materi', function () {
+        echo "<h1>Materi Perkuliahan</h1>";
     });
-    //dan lain2
 });
+
 Route::get('/dosen', function () {
-    return view('dosen');
-});
-
-Route::get('/dosen/index', function () {
     return view('dosen.index');
 });
 
 Route::get('/fakultas', function () {
-    return view('fakultas.index', ["ilkom" => "Fakultas Ilmu Komputer dan Rekayasa"]);
-});
+    // return view('fakultas.index', ['ilkom' => "Fakultas Ilmu Komputer dan Rekayasa", "Fakultas Ilmu Ekonomi"]);
+    // return view('fakultas.index')->with('fakultas', ['Fakultas Ilmu Komputer dan Rekayasa', 'Fakultas Ilmu Ekonomi']);
 
-Route::get('/fakultas', function () {
-    // return view('fakultas.index', ["ilkom" => "Fakultas Ilmu Komputer dan Rekayasa"]);
-    //return view('fakultas.index', ["fakultas" => ["Fakultas Ilmu Komputer dan Rekayasa", "Fakultas Ilmu Ekonomi"]]);
-    //return view('fakultas.index')->with("fakultas", [Fakultas Ilmu Komputer dan Rekayasa", "Falkutas Ilmu Ekonomi"]);
-    $kampus = "Universitas Multi Data Palembang";
-    //$fakultas = [];
-    $fakultas = ["Fakultas Ilmu Komputer dan Rekayasa", "Fakultas Ilmu Ekonomi"];
+    $kampus = 'Universitas Multi Data Palembang';
+    // $fakultas = ["Fakultas Ilmu Komputer dan Rekayasa", "Fakultas Ilmu Ekonomi"];
+    $fakultas = [];
     return view('fakultas.index', compact('fakultas', 'kampus'));
-
-    Route::get('/prodi', [ProdiController::class, 'index']);
-
-    Route::get("/kurikulum", KurikulumController::class);
-
-    Route::apiResource("/dosen", DosenController::class);
 });
+
+Route::get('/prodi', [ProdiController::class, 'index']);
+
+Route::resource('/kurikulum', KurikulumController::class);
+
+Route::apiResource('/dosen', DosenController::class);
