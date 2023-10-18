@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KurikulumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,6 +80,9 @@ Route::get('/fakultas', function () {
     $fakultas = ["Fakultas Ilmu Komputer dan Rekayasa", "Fakultas Ilmu Ekonomi"];
     return view('fakultas.index', compact('fakultas', 'kampus'));
 
+    Route::get('/prodi', [ProdiController::class, 'index']);
 
+    Route::get("/kurikulum", KurikulumController::class);
 
+    Route::apiResource("/dosen", DosenController::class);
 });
