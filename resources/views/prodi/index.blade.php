@@ -8,6 +8,11 @@
         <div class="d-md-flex justify-content-md-end">
         <a href="{{ route('prodi.create') }}" class="btn btn-primary">Tambah</a>
         </div>
+         @if (session()->has('info'))
+                <div class="alert alert-success">
+                    {{ session()->get('info')}}
+                </div>
+         @endifg
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -23,7 +28,7 @@
                             method="POST">
                             <a href="{{ url('/prodi/'.$item->id) }}" class="btn btn-warning">Detail</a>
                             <a href="{{ url('/prodi/'.$item->id.'/edit') }}" class="btn btn-info">Ubah</a>
-                            @method('DELETE')
+                            @method('delete')
                             @csrf
                             <button type="submit" class="btn btn-danger ">Hapus</button>
                         </form>
