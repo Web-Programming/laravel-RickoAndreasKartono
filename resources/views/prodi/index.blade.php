@@ -12,16 +12,19 @@
                 <div class="alert alert-success">
                     {{ session()->get('info')}}
                 </div>
-         @endifg
+         @endif
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Nama</th><th>Aksi</th>
+                    <th>Nama</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($prodis as $item)
                     <tr>
+                        <td>
+                            <img src="{{ asset('storage/' .$item->foto) }}" width="100px"></td>
                         <td> {{ $item->nama }} </td>
                         <td>
                              <form action="{{ route('prodi.destroy', ['prodi' => $item->id]) }}"
